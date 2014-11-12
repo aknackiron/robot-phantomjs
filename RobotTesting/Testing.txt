@@ -1,0 +1,13 @@
+*** Settings ***
+Library           Selenium2Library    #Library | ../venv/lib/python2.7/site-packages/Selenium2Library
+
+*** Variables ***
+${url}            \    # Url needs to be provided on comand line
+${browser}        ff    # Needs to be provided on command line
+
+*** Test Cases ***
+LoginOk
+    [Setup]    Open Browser    url=${url}    browser=${browser}
+    Log    Opening ${url}
+    Wait Until Page Contains    Kokeilen onneani    10s
+    [Teardown]    Close All Browsers
