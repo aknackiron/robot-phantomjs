@@ -4,10 +4,28 @@ Library           Selenium2Library    #Library | ../venv/lib/python2.7/site-pack
 *** Variables ***
 ${url}            \    # Url needs to be provided on comand line
 ${browser}        ff    # Needs to be provided on command line
+${username}	  \	# Needs to be provided on command line
+${password}       \	# Needs to be provided on command line
 
 *** Test Cases ***
 LoginOk
     [Setup]    Open Browser    url=${url}    browser=${browser}
     Log    Opening ${url}
-    Wait Until Page Contains    Kokeilen onneani    10s
+    Wait Until Element Is Visible    xpath=//*[@id='webview']    10s
+    Select Frame    xpath=//*[@id='webview']
+    Input Text    xpath=//*[@placeholder='Email']    ${username}
+    Input Password    xpath=//*[@placeholder='Password']    ${password}
+    Click Element    xpath=//*[contains(@class, 'login-btn')]
+    Capture Page Screenshot
+    Wait Until Page Contains Element    xpath=//span[contains(@*, 'title current-tasks')]    10s
+    Click Element    xpath=//*[@class = 'header-logo']
+    Click Element    xpath=//*[contains(@*, 'logout')]
     [Teardown]    Close All Browsers
+
+
+# Logout
+#     [Setup]    Open Browser    url=${url}    browser=${browser}
+#     Wait Until Page Contains Element    xpath=//span[contains(@*, 'title current-tasks')]    10s
+#     Click Element    xpath=//*[@class = 'header-logo']
+#     Click Element    xpath=//*[contains(@*, 'logout')]
+#     [Teardown]    Close All Browsers
